@@ -1,13 +1,11 @@
 //Flemming G. Herner
 //Herner Design
-
 /* Dette er et program til automatisering af terrarie.
    P = Pumpe.
    BU = Blæser ud.
    BI = Blæser ind.
    DHT = Sensor
 */
-
 #include <DHT.h> //Bibliotek - Sensor
 #include <LiquidCrystal.h> //Bibliotek - Skærm
 #define DHTPIN A0 //Sensor plasering
@@ -17,7 +15,6 @@ const int BU = 7; //BU plasering
 const int BI = 8; //BI plasering
 DHT dht(DHTPIN, DHTTYPE); //Defination
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2); //Plasering
-
 void setup() {
   lcd.begin(40, 2); //Tænder skærm
   pinMode(P, OUTPUT); //Defination af type (OUTPUT/INPUT)
@@ -41,15 +38,15 @@ void setup() {
   lcd.print("Tjekker klimaet."); //Skriver på LCD
   dht.begin(); //Tænder sensor
   delay(2500); //Pause
+  lcd.clear(); //Fjerner tekst fra LCD
 }
-
 void loop() {
-
   int humF = dht.readHumidity(); //Fortæller hvor i programmet den skal læse fugtighed fra sensor
   int tempF = dht.readTemperature(); //Fortæller hvor i programmet den skal læse temperatur fra sensor
-  delay(5); //Pause
-  for (int i = 0; i < 61; i++) {
-    for (int i = 0; i < 61; i++) {
+  for (int ii = 0; ii < 15; ii++) {
+    for (int i = 0; i < 12; i++) {
+      int humF = dht.readHumidity(); //Fortæller hvor i programmet den skal læse fugtighed fra sensor
+      int tempF = dht.readTemperature(); //Fortæller hvor i programmet den skal læse temperatur fra sensor
       lcd.setCursor(0, 0); //Sætter kurser plasering
       lcd.print("Temperatur: "); //Skriver på LCD
       lcd.print(tempF); //Skriver temperatur værdi
@@ -59,12 +56,10 @@ void loop() {
       lcd.print("Fugtighed: "); //Skriver på LCD
       lcd.print(humF); //Skriver fugtigheds værdig
       lcd.print("%"); //Skriver på LCD
-      delay(1000); //Pause
-
+      delay(5000); //Pause
     }
   }
   lcd.clear(); //Fjerner tekst fra LCD
-
   if (humF > 70) { //Hvis fugtigheden er over 70 skal den gøre følgende
     lcd.setCursor(0, 0); //Sætter kurser plasering
     lcd.print("Her er for"); //Skriver på LCD
@@ -78,7 +73,7 @@ void loop() {
     digitalWrite(BI, 0); //Slukker BI
     delay(5); //Pause
     lcd.clear(); //Fjerner tekst fra LCD
-  } else if (humF < 59) {
+  } else if (humF < 59) { //Hvis fugtigheden er under 59 skal den gøre følgende
     lcd.setCursor(0, 0); //Sætter kurser plasering
     lcd.print("Her er ikke"); //Skriver på LCD
     lcd.setCursor (0, 1); //Sætter kurser plasering
